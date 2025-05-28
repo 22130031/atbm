@@ -1,0 +1,154 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#PageIamge {
+    background-image: url("/View/asset/image/-473Wx593H-466411871-black-MODEL.jpg"); /* The image used */
+    background-color: #cccccc; /* Used if the image is unavailable */
+    height: 500px; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    padding: 0 80px;
+    font-family: Arial, sans-serif;
+    font-size: 33px;
+}
+
+#PageIamge h1 {
+    padding-top: 50px;
+    padding-bottom: 15px;
+    color: rgb(168, 149, 50);
+
+}
+
+#PageIamge h2 {
+    color: darkgoldenrod;
+}
+
+#PageIamge h3 {
+    color: khaki;
+}
+
+#PageIamge p {
+    color: goldenrod;
+}
+
+#feature {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    border-bottom: #888888 1px solid;
+}
+
+#feature .fe-box {
+    width: 100%;
+    padding: 30px 25px 15px 25px;
+    font-size: 24px;
+}
+
+/*Show product*/
+#product1, #product2, #product3, #product4, #product5, #product6 {
+    text-align: center;
+}
+
+#product1 .pro-container, #product2 .pro-container, #product3 .pro-container {
+    margin: auto;
+    display: flex;
+    width: 1200px;
+    flex-wrap: wrap;
+}
+
+#product1 .pro, #product2 .pro, #product3 .pro {
+    width: 22%;
+    min-width: 250px;
+    padding: 10px 12px;
+    border: 1px solid #cce7d0;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.02);
+    margin: 15px 0;
+    transition: 0.2s ease;
+    position: relative;
+}
+
+#product1 .pro, #product2 .pro:hover, #product3 .pro:hover, #product4 .pro:hover {
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.06);
+}
+
+#product1 .pro img, #product2 .pro img, #product3 .pro img, #product4 .pro img {
+    display: block;
+    width: 100%;
+    border-radius: 20px;
+}
+
+#product .pro .des {
+    text-align: start;
+    padding: 10px 0;
+}
+
+#product1 .pro .des span, #product2 .pro .des span, #product3 .pro .des span {
+    color: #606063;
+    font-size: 12px;
+}
+
+#product1 .pro .buy-now, #product2 .pro .buy-now, #product3 .pro .buy-now {
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: block;
+    background: rgb(168, 149, 50);
+    color: #fff;
+    padding: 10px 0;
+    width: 100%;
+    position: absolute;
+    opacity: 0.85;
+
+}
+
+#product1 .pro:hover .buy-now, #product2 .pro:hover .buy-now, #product3 .pro:hover .buy-now {
+    bottom: 0;
+}
+
+#product1 .pro .pro-top, #product2 .pro .pro-top, #product3 .pro .pro-top {
+    position: relative;
+    overflow: hidden;
+}
+
+#product2 h2 {
+    color: orange;
+}
+
+#product3 h2 {
+    color: blue;
+}
+
+#Bonus {
+    display: flex;
+}
+
+#Bonus img {
+    height: 300px;
+    width: auto;
+    padding: 10px 40px;
+}
+
+#Bonus .textChatLieu {
+    height: 300px;
+    width: 50%;
+    padding-left: 200px;
+}
+
+#Bonus2 {
+    padding: 50px 100px 50px 100px;
+    text-align: center;
+}
+
+.pro .pro-top img {
+    height: 300px;
+
+}

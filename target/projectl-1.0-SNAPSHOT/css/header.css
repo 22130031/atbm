@@ -1,0 +1,113 @@
+.header{
+    background-color: #212121;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 10px 2px 20px;
+    border-bottom: 2px solid #3a3a3a;
+}
+.menu {
+    display: flex;
+    gap: 20px;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+.header a{
+    text-decoration: none;
+    color:#ffffff;
+}
+.header a:hover{
+    background-color: #333333;
+}
+.dropdown,.dropdown-user {
+    position: relative;
+}
+
+.dropdown-content,.dropdown-content-user {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #212121;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    min-width: 150px;
+    z-index: 1;
+}
+
+.dropdown-content a,.dropdown-content-user a {
+    padding: 10px 15px;
+    display: block;
+    color: #eeeeee;
+    text-decoration: none;
+}
+.dropdown-content a:hover,.dropdown-content-user a:hover {
+    background-color: #333333;
+}
+
+.dropdown:hover .dropdown-content,.dropdown-user:hover .dropdown-content-user {
+    display: block;
+}
+.icons input {
+    border: 1px solid #3a3a3a;
+    border-radius: 5px;
+    padding: 5px 10px;
+    background-color: #121212;
+    color: #ffffff;
+}
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.search-input {
+    width: 200px; /* Đặt chiều rộng phù hợp */
+    max-width: 250px; /* Giới hạn kích thước lớn nhất */
+    padding: 8px 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #333;
+    color: #f0f0f0;
+    height: 28px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #3a3a3a;
+    box-shadow: 0 0 5px #3a3a3a;
+}
+
+.search-icon {
+    background-color: #3a3a3a;
+    border: none;
+    padding: 8px 12px;
+    margin-left: 5px;
+    border-radius: 5px;
+    color: #fff;
+    height: 40px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-icon:hover {
+    background-color: #d72f3e;
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Khoảng cách giữa các biểu tượng */
+}
+
+
+
+

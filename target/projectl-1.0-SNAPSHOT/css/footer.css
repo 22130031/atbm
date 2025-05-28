@@ -1,0 +1,147 @@
+
+body{
+font-family: Arial, sans-serif; /* Thiết lập font chữ mặc định */
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4; /* Nền trang màu xám nhạt */
+}
+
+/* Footer */
+.footer {
+  background-color: #2c3e50; /* Nền footer màu xanh đậm */
+  color: #ffffff; /* Chữ màu trắng */
+  padding: 40px 20px; /* Khoảng cách trong footer */
+  text-align: center; /* Căn giữa nội dung */
+}
+
+/* Container Footer */
+.footer-container {
+  display: flex; /* Sử dụng Flexbox để sắp xếp các mục */
+  flex-wrap: wrap; /* Các mục tự động xuống dòng nếu không đủ không gian */
+  justify-content: space-between; /* Căn đều khoảng cách giữa các mục */
+  max-width: 1200px;
+  margin: 0 auto; /* Căn giữa container */
+}
+
+/* Thương hiệu và logo */
+.footer-brand {
+  margin-bottom: 30px; /* Khoảng cách dưới phần logo */
+  text-align: center;
+}
+
+.footer-logo {
+  width: 120px; /* Kích thước logo */
+  margin-bottom: 10px;
+}
+
+.footer-brand p {
+  font-size: 14px; /* Cỡ chữ nhỏ hơn cho mô tả */
+  color: #bdc3c7; /* Màu xám nhạt */
+  font-style: italic; /* Chữ nghiêng */
+  margin: 5px 0;
+}
+
+/* Biểu tượng mạng xã hội */
+.social-icons {
+  margin-top: 15px;
+}
+
+.social-icons a {
+  display: inline-block;
+  margin: 0 10px; /* Khoảng cách giữa các biểu tượng */
+}
+
+.social-icons a img {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease; /* Hiệu ứng chuyển đổi kích thước khi hover */
+}
+
+.social-icons a:hover img {
+  transform: scale(1.2); /* Phóng to biểu tượng khi hover */
+}
+
+/* Danh sách liên kết */
+.footer-links {
+  display: flex; /* Hiển thị ngang các phần liên kết */
+  justify-content: space-between;
+  flex: 2; /* Chia tỷ lệ 2 phần */
+  min-width: 300px;
+}
+
+.footer-links div {
+  flex: 1; /* Chia đều mỗi mục trong footer-links */
+  margin: 0 10px;
+}
+
+.footer-links h3 {
+  font-size: 18px; /* Tiêu đề lớn hơn một chút */
+  margin-bottom: 15px; /* Khoảng cách dưới tiêu đề */
+  color: #f1c40f; /* Màu vàng cho tiêu đề */
+  text-transform: uppercase; /* Chữ in hoa */
+}
+
+.footer-links ul {
+  list-style: none; /* Bỏ ký hiệu đầu dòng */
+  padding: 0; /* Xóa padding mặc định */
+}
+
+.footer-links ul li {
+  margin-bottom: 10px; /* Khoảng cách giữa các mục */
+}
+
+.footer-links ul li a {
+  color: #ffffff; /* Chữ màu trắng */
+  text-decoration: none; /* Bỏ gạch chân liên kết */
+  font-size: 14px; /* Kích thước chữ nhỏ gọn */
+  transition: color 0.3s ease; /* Hiệu ứng chuyển đổi màu khi hover */
+}
+
+.footer-links ul li a:hover {
+  color: #f1c40f; /* Chuyển sang màu vàng khi hover */
+}
+
+/* Liên hệ */
+.footer-contact {
+  font-style: normal;
+  flex: 1; /* Chia tỷ lệ 1 phần */
+  min-width: 250px;
+}
+
+.footer-contact h3 {
+  font-size: 18px; /* Tiêu đề phần liên hệ */
+  margin-bottom: 15px; /* Khoảng cách dưới tiêu đề */
+  color: #f1c40f;
+  text-transform: uppercase;
+  font-family: Arial, sans-serif;
+}
+
+.footer-contact p {
+  font-size: 14px;
+  margin-bottom: 10px; /* Khoảng cách giữa các dòng */
+  color:#ffffff;
+  text-decoration:none;
+  line-height: 1.6;/* Màu xám nhạt */
+}
+
+/* Phần cuối footer */
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px; /* Kích thước chữ nhỏ */
+  border-top: 1px solid #34495e; /* Đường kẻ trên cùng */
+  padding-top: 15px; /* Khoảng cách trên */
+  color: #bdc3c7; /* Màu xám nhạt */
+}
+
+.footer-bottom a {
+  color: #f1c40f; /* Liên kết màu vàng */
+  text-decoration: none; /* Bỏ gạch chân */
+  font-weight: bold;
+}
+
+.footer-bottom a:hover {
+  text-decoration: underline; /* Hiện gạch chân khi hover */
+}
+
+
