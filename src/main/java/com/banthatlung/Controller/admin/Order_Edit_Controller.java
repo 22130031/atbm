@@ -38,7 +38,7 @@ public class Order_Edit_Controller extends HttpServlet {
         String name = req.getParameter("name");
         String phone = req.getParameter("phone");
         String address = req.getParameter("address");
-        int status = Integer.parseInt(req.getParameter("status"));
+        String status = req.getParameter("status");
         int total = Integer.parseInt(req.getParameter("total"));
         Order order = new Order(id, name, phone, address, status, total);
         System.out.println(order.getId());

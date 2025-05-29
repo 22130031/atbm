@@ -24,7 +24,7 @@ public class OrderDao {
         PreparedStatement ps = getPreparedStatement(sql);
         rs = ps.executeQuery();
         while (rs.next()) {
-            orders.add(new Order(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), rs.getString("address"), rs.getDate("orderDate").toString(), rs.getDate("update_date").toString(), rs.getInt("status"), rs.getInt("total_amount")));
+            orders.add(new Order(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), rs.getString("address"), rs.getDate("orderDate").toString(), rs.getDate("update_date").toString(), rs.getString("status"), rs.getInt("total_amount")));
         }
         return orders;
     }
@@ -36,7 +36,7 @@ public class OrderDao {
         ps.setInt(1, id);
         rs = ps.executeQuery();
         while (rs.next()) {
-            order = new Order(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), rs.getString("address"), rs.getDate("orderDate").toString(), rs.getDate("update_date").toString(), rs.getInt("status"), rs.getInt("total_amount"));
+            order = new Order(rs.getInt("id"), rs.getString("name"), rs.getString("phone"), rs.getString("address"), rs.getDate("orderDate").toString(), rs.getDate("update_date").toString(), rs.getString("status"), rs.getInt("total_amount"));
         }
         return order;
     }
@@ -52,7 +52,7 @@ public class OrderDao {
             ps.setString(1, order.getName());
             ps.setString(2, order.getphone());
             ps.setString(3, order.getAddress());
-            ps.setInt(4, 1);
+            ps.setString(4, order.getStatus());
             ps.setInt(5, order.getTotal_amount());
 
             // Execute the insert statement
@@ -87,7 +87,7 @@ public class OrderDao {
             ps.setString(1, order.getName());
             ps.setString(2, order.getphone());
             ps.setString(3, order.getAddress());
-            ps.setInt(4, order.getStatus());
+            ps.setString(4, order.getStatus());
             ps.setInt(5, order.getId());
             int rowsUpdated = ps.executeUpdate();
             if (rowsUpdated > 0) {
