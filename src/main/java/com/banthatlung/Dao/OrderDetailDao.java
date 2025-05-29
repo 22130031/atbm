@@ -55,7 +55,7 @@ public class OrderDetailDao {
             String sql = "UPDATE orders SET user_id = ?, status = ?, total_amount = ?, update_date = CURRENT_TIMESTAMP WHERE id = ?";
             PreparedStatement ps = DBConnect2.getPreparedStatement(sql);
             ps.setInt(1, order.getId());
-            ps.setInt(2, order.getStatus());
+            ps.setString(2, order.getStatus());
             ps.setInt(3, order.getTotal_amount());
             ps.setInt(4, order.getId());
             int rowsUpdated = ps.executeUpdate();

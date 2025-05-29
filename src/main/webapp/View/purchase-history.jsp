@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: mcuon
-  Date: 5/29/2025
-  Time: 3:02 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -86,6 +79,25 @@
       font-style: italic;
       color: #666;
     }
+
+    .sign-button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn-sign {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-sign:hover {
+      background-color: #218838;
+    }
   </style>
 </head>
 <body>
@@ -100,28 +112,38 @@
 
 <div class="table-container">
   <c:if test="${not empty historyList}">
-    <table>
-      <thead>
-      <tr>
-        <th>STT</th>
-        <th>Chọn</th>
-        <th>Mã đơn hàng</th>
-        <th>Ngày đặt</th>
-        <th>Tổng tiền</th>
-      </tr>
-      </thead>
-      <tbody>
-      <c:forEach var="order" items="${historyList}" varStatus="loop">
+    <form method="post" action="${pageContext.request.contextPath}/sign-orders">
+      <table>
+        <thead>
         <tr>
-          <td>${loop.index + 1}</td>
-          <td><input type="checkbox" name="selectedOrders" value="${order.orderId}" /></td>
-          <td>${order.orderId}</td>
-          <td>${order.orderDate}</td>
-          <td>${order.totalPrice} đ</td>
+          <th>STT</th>
+          <th>Chọn</th>
+          <th>Mã đơn hàng</th>
+          <th>Ngày đặt</th>
+          <th>Tổng tiền</th>
         </tr>
-      </c:forEach>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        <c:forEach var="order" items="${historyList}" varStatus="loop">
+          <tr>
+            <td>${loop.index + 1}</td>
+            <td>
+              <c:if test="${!order.signed}">
+                <input type="checkbox" name="orderId" value="${order.orderId}" />
+              </c:if>
+            </td>
+            <td>${order.orderId}</td>
+            <td>${order.orderDate}</td>
+            <td>${order.totalPrice} đ</td>
+          </tr>
+        </c:forEach>
+        </tbody>
+      </table>
+
+      <div class="sign-button-container">
+        <button type="submit" class="btn-sign">Ký các đơn hàng đã chọn</button>
+      </div>
+    </form>
   </c:if>
 
   <c:if test="${empty historyList}">
@@ -131,5 +153,3 @@
 
 </body>
 </html>
-
-
