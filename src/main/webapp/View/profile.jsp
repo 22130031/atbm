@@ -270,6 +270,7 @@
         <div class="menu-text">
             <p><a href="#">Hồ Sơ</a></p>
             <p><a href="${pageContext.request.contextPath}/favorite">Sản phẩm yêu thích</a></p>
+            <p><a href="${pageContext.request.contextPath}/history">Lịch sử mua hàng</a></p>
             <p><a href="${pageContext.request.contextPath}/change-password">Đổi mật khẩu</a></p>
         </div>
     </div>
