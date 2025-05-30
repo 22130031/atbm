@@ -1,111 +1,47 @@
 package com.banthatlung.Dao.model;
 
 public class Order {
-    private int id;
-    private String name;
-    private String phone;
-    private String address;
-    private String orderDate;
-    private String update_date;
-    private String Status;
-    private int total_amount;
+    private int id;             // ID nội bộ
+    private String userId;      // ID người dùng (VARCHAR)
+    private int orderCode;      // Mã đơn hàng hiển thị
+    private int totalPrice;     // Tổng tiền
+    private String orderDate;   // Ngày đặt hàng
+    private boolean signed;     // Đã ký hay chưa
+    private int status;         // Trạng thái đơn hàng (1: mới đặt, 2: đã giao...)
 
-    public Order(int id, String name, String phone, String address, String orderDate, String update_date, String status, int total_amount) {
+    public Order(int id, String userId, int orderCode, int totalPrice, String orderDate, boolean signed, int status) {
         this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
+        this.userId = userId;
+        this.orderCode = orderCode;
+        this.totalPrice = totalPrice;
         this.orderDate = orderDate;
-        this.update_date = update_date;
-        this.Status = status;
-        this.total_amount = total_amount;
+        this.signed = signed;
+        this.status = status;
     }
 
-    public Order(int id, String name, String phone, String address, String status, int total_amount) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        Status = status;
-        this.total_amount = total_amount;
+    public Order(String userId, int orderCode, int totalPrice) {
+        this.userId = userId;
+        this.orderCode = orderCode;
+        this.totalPrice = totalPrice;
+        this.orderDate = null;
+        this.signed = false;
+        this.status = 1;
     }
 
-    public Order(String name, String address, String phone, int total) {
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.total_amount = total;
-    }
+    // Getters & Setters
+    public int getId() { return id; }
+    public String getUserId() { return userId; }
+    public int getOrderCode() { return orderCode; }
+    public int getTotalPrice() { return totalPrice; }
+    public String getOrderDate() { return orderDate; }
+    public boolean isSigned() { return signed; }
+    public int getStatus() { return status; }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getphone() {
-        return phone;
-    }
-
-    public void setphone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(String orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public String getUpdate_date() {
-        return update_date;
-    }
-
-    public void setUpdate_date(String update_date) {
-        this.update_date = update_date;
-    }
-
-    public String getStatus() {
-        return Status;
-    }
-
-    public void setStatus(String status) {
-        Status = status;
-    }
-
-    public int getTotal_amount() {
-        return total_amount;
-    }
-
-    public void setTotal_amount(int total_amount) {
-        this.total_amount = total_amount;
-    }
+    public void setId(int id) { this.id = id; }
+    public void setUserId(String userId) { this.userId = userId; }
+    public void setOrderCode(int orderCode) { this.orderCode = orderCode; }
+    public void setTotalPrice(int totalPrice) { this.totalPrice = totalPrice; }
+    public void setOrderDate(String orderDate) { this.orderDate = orderDate; }
+    public void setSigned(boolean signed) { this.signed = signed; }
+    public void setStatus(int status) { this.status = status; }
 }
