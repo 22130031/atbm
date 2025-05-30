@@ -67,7 +67,7 @@
             </c:if>
             <c:if test="${sessionScope.auth !=null}">
                 <div class="dropdown-user">
-                    <a href="<c:url value='/View/profile.jspe.jsp'/>">
+                    <a href="<c:url value='/View/profile.jsp'/>">
                         <img src="${pageContext.request.contextPath}/${sessionScope.auth.image}" alt="Avatar"
                              style="width: 30px; height: 30px; border-radius: 50%;">
                     </a>

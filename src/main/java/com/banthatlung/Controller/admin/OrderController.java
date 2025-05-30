@@ -1,6 +1,5 @@
 package com.banthatlung.Controller.admin;
 
-
 import com.banthatlung.Dao.OrderDao;
 import com.banthatlung.Dao.model.Order;
 import jakarta.servlet.ServletException;
@@ -15,18 +14,21 @@ import java.util.List;
 
 @WebServlet(urlPatterns = {"/admin_Orders"})
 public class OrderController extends HttpServlet {
-    OrderDao OrderDao = new OrderDao();
+    private final OrderDao orderDao = new OrderDao();
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        resp.setCharacterEncoding("UTF-8");
-        List<Order> OrderList = null;
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        resp.setContentType("text/html; charset=UTF-8");
+
         try {
-            OrderList = OrderDao.getList();
+            // Lấy toàn bộ đơn hàng
+            List<Order> orderList = orderDao.getAllOrders();
+            req.setAttribute("OrderList", orderList);
+            req.getRequestDispatcher("/html_admin/admin_Orders.jsp").forward(req, resp);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Không thể tải danh sách đơn hàng.");
         }
-        req.setAttribute("OrderList", OrderList);
-        req.getRequestDispatcher("/html_admin/admin_Orders.jsp").forward(req, resp);
     }
 }
