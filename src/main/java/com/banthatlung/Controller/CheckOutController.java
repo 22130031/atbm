@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Random;
 
 
-@WebServlet(urlPatterns = {"/checkOut"})
+@WebServlet(urlPatterns = {"/CheckOut"})
 public class CheckOutController extends HttpServlet {
     OrderDao orderDao = new OrderDao();
     OrderDetailDao orderDetailDao = new OrderDetailDao();
