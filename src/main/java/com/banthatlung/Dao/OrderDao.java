@@ -53,7 +53,7 @@ public class OrderDao {
 
     public int addOrder(Order order) throws SQLException {
         String sql = "INSERT INTO orders (user_id, order_code, total_price, signed, status) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement ps = DBConnect2.getPreparedStatement(sql);
+        PreparedStatement ps = DBConnect2.getPreparedStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, order.getUserId());
         ps.setInt(2, order.getOrderCode());
         ps.setInt(3, order.getTotalPrice());

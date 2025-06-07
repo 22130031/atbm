@@ -81,13 +81,13 @@ public class OrderDetailDao {
     }
 
     public boolean addOrderDetail(OrderDetail orderDetail) {
-        String sql = "INSERT INTO order_details (id, order_id, product_id, quantity, price, created_at, updated_at) " +
-                "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+        String sql = "INSERT INTO order_details (user_id, order_id, product_id, quantity, price) " +
+                "VALUES (?, ?, ?, ?, ?)";
         boolean isAdded = false;
 
         try {
             PreparedStatement ps = DBConnect2.getPreparedStatement(sql);
-            ps.setInt(1, orderDetail.getId());
+            ps.setString(1, orderDetail.getUserId());
             ps.setInt(2, orderDetail.getOrder_id());
             ps.setInt(3, orderDetail.getProduct_id());
             ps.setInt(4, orderDetail.getQuantity());

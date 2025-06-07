@@ -11,6 +11,14 @@ public class OrderDetail {
     private String created_at;
     private String updated_at;
 
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public OrderDetail(int id, String userId, int orderId, int productId, String productName, int quantity, int price) {
         this.id = id;
         this.userId = userId;
@@ -30,7 +38,8 @@ public class OrderDetail {
         this.updated_at = updated_at;
     }
 
-    public OrderDetail(int order_id, int product_id, int quantity, int price) {
+    public OrderDetail(int order_id,String userId ,int product_id, int quantity, int price) {
+        this.userId = userId;
         this.order_id = order_id;
         this.product_id = product_id;
         this.quantity = quantity;
