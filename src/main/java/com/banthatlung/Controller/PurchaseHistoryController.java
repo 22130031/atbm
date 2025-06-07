@@ -1,7 +1,7 @@
 package com.banthatlung.Controller;
 
-import com.banthatlung.Dao.PurchaseHistoryDao;
-import com.banthatlung.Dao.model.PurchaseHistory;
+import com.banthatlung.Dao.OrderDetailDao;
+import com.banthatlung.Dao.model.OrderDetail;
 import com.banthatlung.Dao.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,22 +24,11 @@ public class PurchaseHistoryController extends HttpServlet {
             return;
         }
 
-        String userId = user.getId();
-        String filter = request.getParameter("filter");
-        if (filter == null) filter = "all";
-
         try {
-            PurchaseHistoryDao dao = new PurchaseHistoryDao();
-            List<PurchaseHistory> all = dao.getHistoryByUser(userId);
+            OrderDetailDao dao = new OrderDetailDao();
+            List<OrderDetail> history = dao.getDetailsByUser(user.getId());
 
-            List<PurchaseHistory> filtered = switch (filter) {
-                case "signed" -> all.stream().filter(PurchaseHistory::isSigned).collect(Collectors.toList());
-                case "unsigned" -> all.stream().filter(ph -> !ph.isSigned()).collect(Collectors.toList());
-                default -> all;
-            };
-
-            request.setAttribute("filter", filter);
-            request.setAttribute("historyList", filtered);
+            request.setAttribute("historyList", history);
             request.getRequestDispatcher("/View/purchase-history.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

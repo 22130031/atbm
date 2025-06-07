@@ -2,13 +2,24 @@ package com.banthatlung.Dao.model;
 
 public class OrderDetail {
     private int id;
+    private String userId;
     private int order_id;
     private int product_id;
+    private String productName; // từ JOIN bảng product
     private int quantity;
     private int price;
     private String created_at;
     private String updated_at;
 
+    public OrderDetail(int id, String userId, int orderId, int productId, String productName, int quantity, int price) {
+        this.id = id;
+        this.userId = userId;
+        this.order_id = orderId;
+        this.product_id = productId;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.price = price;
+    }
     public OrderDetail(int id, int order_id, int product_id, int quantity, int price, String created_at, String updated_at) {
         this.id = id;
         this.order_id = order_id;
@@ -25,7 +36,8 @@ public class OrderDetail {
         this.quantity = quantity;
         this.price = price;
     }
-
+    public String getUserId() { return userId; }
+    public String getProductName() { return productName; }
     public String getCreated_at() {
         return created_at;
     }
