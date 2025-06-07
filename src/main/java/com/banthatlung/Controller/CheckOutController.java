@@ -13,10 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 
 @WebServlet(urlPatterns = {"/checkOut"})
@@ -45,7 +42,7 @@ public class CheckOutController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        int orderCode = 1;
+        int orderCode = Math.abs(UUID.randomUUID().toString().hashCode());
         User user = (User) session.getAttribute("auth");
         if (user == null) {
             resp.sendRedirect(req.getContextPath() + "/View/login.jsp");
@@ -64,7 +61,7 @@ public class CheckOutController extends HttpServlet {
             throw new RuntimeException(e);
         }
         for(Map.Entry<Integer, ProductCart> entry : cart.entrySet()){
-            OrderDetail orderDetail = new OrderDetail(id,entry.getValue().getProduct().getId(),entry.getValue().getQuantity(), (int) (entry.getValue().getProduct().getPrice()*entry.getValue().getQuantity()));
+            OrderDetail orderDetail = new OrderDetail(id, user.getId(), entry.getValue().getProduct().getId(),entry.getValue().getQuantity(), (int) (entry.getValue().getProduct().getPrice()*entry.getValue().getQuantity()));
             orderDetailDao.addOrderDetail(orderDetail);
         }
         session.setAttribute("cart", null);

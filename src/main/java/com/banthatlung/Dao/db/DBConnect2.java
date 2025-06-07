@@ -79,4 +79,13 @@ public class DBConnect2 {
 
     }
 
+    public static PreparedStatement getPreparedStatement(String sql, int returnGeneratedKeys) {
+        try {
+            if (conn == null || conn.isClosed()) makeConnect();
+            return conn.prepareStatement(sql, returnGeneratedKeys);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
