@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 
-@WebServlet(urlPatterns = {"/checkOut"})
+@WebServlet(urlPatterns = {"/CheckOut"})
 public class CheckOutController extends HttpServlet {
     OrderDao orderDao = new OrderDao();
     OrderDetailDao orderDetailDao = new OrderDetailDao();
