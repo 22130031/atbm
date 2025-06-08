@@ -8,8 +8,10 @@ public class Order {
     private String orderDate;   // Ngày đặt hàng
     private boolean signed;     // Đã ký hay chưa
     private int status;         // Trạng thái đơn hàng (1: mới đặt, 2: đã giao...)
+    private String signature;   // Chữ ký hóa đơn
 
-    public Order(int id, String userId, int orderCode, int totalPrice, String orderDate, boolean signed, int status) {
+    public Order(int id, String userId, int orderCode, int totalPrice, String orderDate,
+                 boolean signed, int status, String signature) {
         this.id = id;
         this.userId = userId;
         this.orderCode = orderCode;
@@ -17,6 +19,7 @@ public class Order {
         this.orderDate = orderDate;
         this.signed = signed;
         this.status = status;
+        this.signature = signature;
     }
 
     public Order(String userId, int orderCode, int totalPrice) {
@@ -26,6 +29,7 @@ public class Order {
         this.orderDate = null;
         this.signed = false;
         this.status = 1;
+        this.signature = null;
     }
 
     // Getters & Setters
@@ -36,6 +40,7 @@ public class Order {
     public String getOrderDate() { return orderDate; }
     public boolean isSigned() { return signed; }
     public int getStatus() { return status; }
+    public String getSignature() { return signature; }
 
     public void setId(int id) { this.id = id; }
     public void setUserId(String userId) { this.userId = userId; }
@@ -44,4 +49,5 @@ public class Order {
     public void setOrderDate(String orderDate) { this.orderDate = orderDate; }
     public void setSigned(boolean signed) { this.signed = signed; }
     public void setStatus(int status) { this.status = status; }
+    public void setSignature(String signature) { this.signature = signature; }
 }

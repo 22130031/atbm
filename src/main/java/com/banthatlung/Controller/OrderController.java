@@ -9,13 +9,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.Signature;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/orders"})
 public class OrderController extends HttpServlet {
     private final OrderDao orderDao = new OrderDao();
+
+    // Đường dẫn file private key
+    private static final String PRIVATE_KEY_PATH = "D:\\keys\\private_key.pem";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -25,7 +35,6 @@ public class OrderController extends HttpServlet {
         String search = req.getParameter("search");
 
         try {
-            // Lấy danh sách hóa đơn với bộ lọc và tìm kiếm
             List<Order> orderList = orderDao.getAllOrders();
             if (filter != null && !filter.isEmpty() && !"all".equals(filter)) {
                 orderList = orderList.stream()
@@ -50,18 +59,41 @@ public class OrderController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String action = req.getParameter("action");
-        try {
-            if ("sign".equals(action)) {
-                // Ký hóa đơn
-                String[] ids = req.getParameter("ids").split(",");
-                for (String id : ids) {
-                    orderDao.updateSignedStatus(Integer.parseInt(id), true);
+        if ("sign".equals(action)) {
+            String[] ids = req.getParameter("ids").split(",");
+            try {
+                // Đọc và tạo PrivateKey từ file PEM
+                byte[] keyBytes = Files.readAllBytes(Paths.get(PRIVATE_KEY_PATH));
+                String keyPEM = new String(keyBytes)
+                        .replace("-----BEGIN PRIVATE KEY-----", "")
+                        .replace("-----END PRIVATE KEY-----", "")
+                        .replaceAll("\\s", "");
+                byte[] decodedKey = Base64.getDecoder().decode(keyPEM);
+                PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(decodedKey);
+                KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+                PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
+
+                Signature signature = Signature.getInstance("SHA1withRSA");
+                signature.initSign(privateKey);
+
+                for (String idStr : ids) {
+                    int id = Integer.parseInt(idStr);
+                    Order order = orderDao.getOrderById(id);
+                    if (order != null) {
+                        String dataToSign = order.getOrderCode() + "|" + order.getTotalPrice() + "|" + order.getOrderDate();
+
+                        signature.update(dataToSign.getBytes());
+                        byte[] signBytes = signature.sign();
+                        String signBase64 = Base64.getEncoder().encodeToString(signBytes);
+
+                        orderDao.updateOrderSignature(id, true, signBase64);
+                    }
                 }
                 resp.sendRedirect("orders");
+            } catch (Exception e) {
+                e.printStackTrace();
+                resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Không thể ký hóa đơn.");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Không thể xử lý yêu cầu.");
         }
     }
 }

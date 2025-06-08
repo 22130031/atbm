@@ -14,141 +14,172 @@
     h2 {
       text-align: center;
       margin-bottom: 30px;
-      font-size: 28px;
       color: #333;
     }
 
-    .filter-buttons {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .btn-filter {
-      margin: 0 10px;
-      padding: 10px 18px;
-      background-color: #007bff;
-      color: white;
-      text-decoration: none;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .btn-filter.active {
-      background-color: #0056b3;
-    }
-
-    .table-container {
+    table {
       width: 90%;
       margin: auto;
-      background-color: white;
+      border-collapse: collapse;
+      background: white;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    th, td {
+      padding: 14px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
     }
 
     thead {
       background-color: #e9ecef;
     }
 
-    th, td {
-      padding: 14px;
-      border-bottom: 1px solid #dee2e6;
-      text-align: center;
-      font-size: 16px;
+    .btn-comment {
+      padding: 6px 12px;
+      background-color: #ffc107;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
 
-    th {
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+    }
+
+    .popup {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+      width: 420px;
+    }
+
+    .popup label {
+      display: block;
+      margin-top: 10px;
       font-weight: bold;
     }
 
-    input[type="checkbox"] {
-      transform: scale(1.2);
-      cursor: pointer;
+    .popup input[type="text"],
+    .popup select,
+    .popup textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
     }
 
-    p.empty-message {
-      text-align: center;
-      margin-top: 20px;
-      font-style: italic;
-      color: #666;
+    .popup textarea {
+      resize: vertical;
     }
 
-    .sign-button-container {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .btn-sign {
-      padding: 10px 20px;
+    .btn-submit {
+      margin-top: 15px;
       background-color: #28a745;
       color: white;
-      font-size: 16px;
       border: none;
-      border-radius: 6px;
+      padding: 8px 14px;
+      border-radius: 4px;
       cursor: pointer;
     }
 
-    .btn-sign:hover {
-      background-color: #218838;
+    .btn-cancel {
+      margin-top: 15px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      margin-left: 10px;
+      cursor: pointer;
     }
   </style>
+
+  <script>
+    function showPopup(productId, productName) {
+      document.getElementById("popupOverlay").style.display = "block";
+      document.getElementById("productIdInput").value = productId;
+      document.getElementById("popupTitle").innerText = productName;
+    }
+
+    function hidePopup() {
+      document.getElementById("popupOverlay").style.display = "none";
+    }
+  </script>
 </head>
 <body>
 
 <h2>Lịch sử mua hàng</h2>
 
-<div class="filter-buttons">
-  <a href="${pageContext.request.contextPath}/history?filter=all" class="btn-filter ${filter == 'all' ? 'active' : ''}">Tất cả</a>
-  <a href="${pageContext.request.contextPath}/history?filter=signed" class="btn-filter ${filter == 'signed' ? 'active' : ''}">Đã ký</a>
-  <a href="${pageContext.request.contextPath}/history?filter=unsigned" class="btn-filter ${filter == 'unsigned' ? 'active' : ''}">Chưa ký</a>
-</div>
+<table>
+  <thead>
+  <tr>
+    <th>STT</th>
+    <th>Mã đơn hàng</th>
+    <th>Sản phẩm</th>
+    <th>Số lượng</th>
+    <th>Giá</th>
+    <th>Bình luận</th>
+  </tr>
+  </thead>
+  <tbody>
+  <c:forEach var="item" items="${historyList}" varStatus="loop">
+    <tr>
+      <td>${loop.index + 1}</td>
+      <td>${item.order_id}</td>
+      <td>${item.productName}</td>
+      <td>${item.quantity}</td>
+      <td>${item.price} đ</td>
+      <td>
+        <button class="btn-comment"
+                onclick="showPopup(${item.product_id}, '${item.productName}')">
+          Bình luận
+        </button>
+      </td>
+    </tr>
+  </c:forEach>
+  </tbody>
+</table>
 
-<div class="table-container">
-  <c:if test="${not empty historyList}">
-    <form method="post" action="${pageContext.request.contextPath}/sign-orders">
-      <table>
-        <thead>
-        <tr>
-          <th>STT</th>
-          <th>Chọn</th>
-          <th>Mã đơn hàng</th>
-          <th>Ngày đặt</th>
-          <th>Tổng tiền</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="order" items="${historyList}" varStatus="loop">
-          <tr>
-            <td>${loop.index + 1}</td>
-            <td>
-              <c:if test="${!order.signed}">
-                <input type="checkbox" name="orderId" value="${order.orderId}" />
-              </c:if>
-            </td>
-            <td>${order.orderId}</td>
-            <td>${order.orderDate}</td>
-            <td>${order.totalPrice} đ</td>
-          </tr>
-        </c:forEach>
-        </tbody>
-      </table>
+<!-- Popup bình luận -->
+<div id="popupOverlay" class="popup-overlay">
+  <div class="popup">
+    <form action="${pageContext.request.contextPath}/review" method="post">
+      <h3>Bình luận sản phẩm: <span id="popupTitle"></span></h3>
+      <input type="hidden" name="pid" id="productIdInput" />
 
-      <div class="sign-button-container">
-        <button type="submit" class="btn-sign">Ký các đơn hàng đã chọn</button>
-      </div>
+      <label for="reviews-rating">Đánh Giá (1–5 Sao):</label>
+      <select name="rating" id="reviews-rating" required>
+        <option value="5">5 Sao</option>
+        <option value="4">4 Sao</option>
+        <option value="3">3 Sao</option>
+        <option value="2">2 Sao</option>
+        <option value="1">1 Sao</option>
+      </select>
+
+      <label for="reviews-url">Hình Ảnh/Video (URL):</label>
+      <input type="text" name="url" id="reviews-url" placeholder="URL hình ảnh hoặc video">
+
+      <label for="reviews-text">Nội Dung Đánh Giá:</label>
+      <textarea name="reviewText" id="reviews-text" rows="4" placeholder="Viết đánh giá của bạn..." required></textarea>
+
+      <button type="submit" class="btn-submit">Gửi Đánh Giá</button>
+      <button type="button" class="btn-cancel" onclick="hidePopup()">Hủy</button>
     </form>
-  </c:if>
-
-  <c:if test="${empty historyList}">
-    <p class="empty-message">Không có đơn hàng nào phù hợp.</p>
-  </c:if>
+  </div>
 </div>
 
 </body>
