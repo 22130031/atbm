@@ -269,6 +269,9 @@
         </div>
         <div class="menu-text">
             <p><a href="#">Hồ Sơ</a></p>
+            <li><a href="${pageContext.request.contextPath}/security_ui/generate_key.jsp">Tạo khóa</a></li>
+            <li><a href="${pageContext.request.contextPath}/security_ui/sign_invoice.jsp">Ký hóa đơn</a></li>
+            <li><a href="${pageContext.request.contextPath}/security_ui/verify_invoice.jsp">Xác minh hóa đơn</a></li>
             <p><a href="${pageContext.request.contextPath}/favorite">Sản phẩm yêu thích</a></p>
             <p><a href="${pageContext.request.contextPath}/history">Lịch sử mua hàng</a></p>
             <p><a href="${pageContext.request.contextPath}/orders">Quản lý đơn hàng</a></p>

@@ -38,17 +38,12 @@ public class Order_Edit_Controller extends HttpServlet {
             String userId = req.getParameter("userId");
             int orderCode = Integer.parseInt(req.getParameter("orderCode"));
             int totalPrice = Integer.parseInt(req.getParameter("totalPrice"));
-            String signedParam = req.getParameter("signed");
-            boolean signed = "true".equalsIgnoreCase(signedParam);
             int status = Integer.parseInt(req.getParameter("status"));
 
             Order existingOrder = orderDao.getOrderById(id);
             String orderDate = existingOrder != null ? existingOrder.getOrderDate() : null;
-            String signature = existingOrder != null ? existingOrder.getSignature() : null;
 
-            Order updatedOrder = new Order(id, userId, orderCode, totalPrice, orderDate, signed, status, signature);
-
-
+            Order updatedOrder = new Order(id, userId, orderCode, totalPrice, orderDate, status);
             orderDao.updateOrder(updatedOrder);
 
             resp.sendRedirect(req.getContextPath() + "/admin_Orders");
@@ -57,5 +52,4 @@ public class Order_Edit_Controller extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Cập nhật thất bại.");
         }
     }
-
 }

@@ -1,74 +1,33 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Sửa đơn hàng</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f7f7f7; padding: 30px; }
-        form {
-            width: 400px;
-            margin: auto;
-            padding: 20px;
-            background: white;
-            border-radius: 6px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h2 { text-align: center; }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            box-sizing: border-box;
-        }
-        .btn-submit {
-            width: 100%;
-            padding: 10px;
-            background: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .btn-submit:hover {
-            background: #218838;
-        }
-    </style>
+    <title>Chỉnh sửa đơn hàng</title>
 </head>
 <body>
-
-<h2>Sửa đơn hàng</h2>
-
-<form action="${pageContext.request.contextPath}/admin_Order/edit" method="post">
+<h2>Chỉnh sửa đơn hàng</h2>
+<form method="post" action="${pageContext.request.contextPath}/admin_Order/edit">
     <input type="hidden" name="id" value="${order.id}" />
 
-    <label>User ID:</label>
-    <input type="text" name="userId" value="${order.userId}" required />
+    <label for="userId">ID Người dùng:</label>
+    <input type="text" name="userId" id="userId" value="${order.userId}" required /><br/><br/>
 
-    <label>Mã đơn hàng:</label>
-    <input type="number" name="orderCode" value="${order.orderCode}" required />
+    <label for="orderCode">Mã đơn hàng:</label>
+    <input type="number" name="orderCode" id="orderCode" value="${order.orderCode}" required /><br/><br/>
 
-    <label>Tổng tiền:</label>
-    <input type="number" name="totalPrice" value="${order.totalPrice}" required />
+    <label for="totalPrice">Tổng tiền:</label>
+    <input type="number" name="totalPrice" id="totalPrice" value="${order.totalPrice}" required /><br/><br/>
 
-    <label>Trạng thái ký:</label>
-    <select name="signed">
-        <option value="true" ${order.signed ? "selected" : ""}>Đã ký</option>
-        <option value="false" ${!order.signed ? "selected" : ""}>Chưa ký</option>
-    </select>
-
-    <label>Trạng thái đơn hàng:</label>
-    <select name="status">
-        <option value="1" ${order.status == 1 ? "selected" : ""}>Mới</option>
+    <label for="status">Trạng thái:</label>
+    <select name="status" id="status" required>
+        <option value="1" ${order.status == 1 ? "selected" : ""}>Mới đặt</option>
         <option value="2" ${order.status == 2 ? "selected" : ""}>Đã giao</option>
-        <option value="3" ${order.status == 3 ? "selected" : ""}>Khác</option>
-    </select>
+        <option value="3" ${order.status == 3 ? "selected" : ""}>Đã hủy</option>
+    </select><br/><br/>
 
-    <button type="submit" class="btn-submit">Cập nhật</button>
+    <button type="submit">Cập nhật</button>
 </form>
-
+<br/>
+<a href="${pageContext.request.contextPath}/admin_Orders">← Quay lại danh sách đơn hàng</a>
 </body>
 </html>

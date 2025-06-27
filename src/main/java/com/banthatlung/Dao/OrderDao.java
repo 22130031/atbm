@@ -1,7 +1,7 @@
 package com.banthatlung.Dao;
 
-import com.banthatlung.Dao.db.DBConnect2;
 import com.banthatlung.Dao.model.Order;
+import com.banthatlung.Dao.db.DBConnect2;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,110 +14,41 @@ public class OrderDao {
         PreparedStatement ps = DBConnect2.getPreparedStatement(sql);
         ps.setString(1, userId);
         ResultSet rs = ps.executeQuery();
-
         while (rs.next()) {
-            orders.add(new Order(
+            Order order = new Order(
                     rs.getInt("id"),
                     rs.getString("user_id"),
                     rs.getInt("order_code"),
                     rs.getInt("total_price"),
-                    rs.getDate("order_date").toString(),
-                    rs.getBoolean("signed"),
-                    rs.getInt("status"),
-                    rs.getString("signature")
-            ));
+                    rs.getString("order_date"),
+                    rs.getInt("status")
+            );
+            orders.add(order);
         }
         return orders;
     }
 
-    public Order getOrderById(int id) throws SQLException {
-        Order order = null;
-        String sql = "SELECT * FROM orders WHERE id = ?";
-        PreparedStatement ps = DBConnect2.getPreparedStatement(sql);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-
-        if (rs.next()) {
-            order = new Order(
-                    rs.getInt("id"),
-                    rs.getString("user_id"),
-                    rs.getInt("order_code"),
-                    rs.getInt("total_price"),
-                    rs.getDate("order_date").toString(),
-                    rs.getBoolean("signed"),
-                    rs.getInt("status"),
-                    rs.getString("signature")
-            );
-        }
-
-        return order;
-    }
-
     public int addOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO orders (user_id, order_code, total_price, signed, status, signature) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO orders (user_id, order_code, total_price, status) VALUES (?, ?, ?, ?)";
         PreparedStatement ps = DBConnect2.getPreparedStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, order.getUserId());
         ps.setInt(2, order.getOrderCode());
         ps.setInt(3, order.getTotalPrice());
-        ps.setBoolean(4, order.isSigned());
-        ps.setInt(5, order.getStatus());
-        ps.setString(6, order.getSignature());
+        ps.setInt(4, order.getStatus());
         ps.executeUpdate();
-
         ResultSet rs = ps.getGeneratedKeys();
-        if (rs.next()) {
-            return rs.getInt(1);
-        }
+        if (rs.next()) return rs.getInt(1);
         return -1;
     }
 
-    public void updateOrderSignature(int orderId, boolean signed, String signature) throws SQLException {
-        String sql = "UPDATE orders SET signed = ?, signature = ? WHERE id = ?";
-        PreparedStatement ps = DBConnect2.getPreparedStatement(sql);
-        ps.setBoolean(1, signed);
-        ps.setString(2, signature);
-        ps.setInt(3, orderId);
-        ps.executeUpdate();
-    }
-
-    public List<Order> getAllOrders() throws SQLException {
-        List<Order> orders = new ArrayList<>();
-        String sql = "SELECT * FROM orders";
-        PreparedStatement ps = DBConnect2.getPreparedStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            orders.add(new Order(
-                    rs.getInt("id"),
-                    rs.getString("user_id"),
-                    rs.getInt("order_code"),
-                    rs.getInt("total_price"),
-                    rs.getDate("order_date").toString(),
-                    rs.getBoolean("signed"),
-                    rs.getInt("status"),
-                    rs.getString("signature")
-            ));
-        }
-        return orders;
-    }
-
-    public void updateSignedStatus(int orderId, boolean signed) throws SQLException {
-        String sql = "UPDATE orders SET signed = ? WHERE id = ?";
-        PreparedStatement ps = DBConnect2.getPreparedStatement(sql);
-        ps.setBoolean(1, signed);
-        ps.setInt(2, orderId);
-        ps.executeUpdate();
-    }
-
     public void updateOrder(Order order) throws SQLException {
-        String sql = "UPDATE orders SET user_id = ?, order_code = ?, total_price = ?, signed = ?, status = ?, signature = ? WHERE id = ?";
+        String sql = "UPDATE orders SET user_id = ?, order_code = ?, total_price = ?, status = ? WHERE id = ?";
         PreparedStatement ps = DBConnect2.getPreparedStatement(sql);
         ps.setString(1, order.getUserId());
         ps.setInt(2, order.getOrderCode());
         ps.setInt(3, order.getTotalPrice());
-        ps.setBoolean(4, order.isSigned());
-        ps.setInt(5, order.getStatus());
-        ps.setString(6, order.getSignature());
-        ps.setInt(7, order.getId());
+        ps.setInt(4, order.getStatus());
+        ps.setInt(5, order.getId());
         ps.executeUpdate();
     }
 
@@ -126,6 +57,23 @@ public class OrderDao {
         PreparedStatement ps = DBConnect2.getPreparedStatement(sql);
         ps.setInt(1, id);
         ps.executeUpdate();
+    }
+    public Order getOrderById(int id) throws SQLException {
+        String sql = "SELECT * FROM orders WHERE id = ?";
+        PreparedStatement ps = DBConnect2.getPreparedStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return new Order(
+                    rs.getInt("id"),
+                    rs.getString("user_id"),
+                    rs.getInt("order_code"),
+                    rs.getInt("total_price"),
+                    rs.getString("order_date"),
+                    rs.getInt("status")
+            );
+        }
+        return null;
     }
 
 }
