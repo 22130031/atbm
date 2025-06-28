@@ -20,7 +20,7 @@ public class PurchaseHistoryController extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("auth");
         if (user == null) {
-            response.sendRedirect(request.getContextPath() + "/View/login.jsp");
+            response.sendRedirect(request.getContextPath() + "/View/Login.jsp");
             return;
         }
 

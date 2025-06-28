@@ -4,9 +4,7 @@ import com.banthatlung.Dao.OrderDao;
 import com.banthatlung.Dao.model.Order;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -38,18 +36,27 @@ public class Order_Edit_Controller extends HttpServlet {
             String userId = req.getParameter("userId");
             int orderCode = Integer.parseInt(req.getParameter("orderCode"));
             int totalPrice = Integer.parseInt(req.getParameter("totalPrice"));
+            String signedParam = req.getParameter("signed");
+            boolean signed = "true".equalsIgnoreCase(signedParam) || "on".equalsIgnoreCase(signedParam);
             int status = Integer.parseInt(req.getParameter("status"));
 
             Order existingOrder = orderDao.getOrderById(id);
-            String orderDate = existingOrder != null ? existingOrder.getOrderDate() : null;
+            if (existingOrder == null) {
+                resp.sendRedirect(req.getContextPath() + "/admin_Orders");
+                return;
+            }
 
-            Order updatedOrder = new Order(id, userId, orderCode, totalPrice, orderDate, status);
+            String orderDate = existingOrder.getOrderDate();
+            String signature = existingOrder.getSignature();
+
+            Order updatedOrder = new Order(id, userId, orderCode, totalPrice, orderDate, status, signed, signature);
+
             orderDao.updateOrder(updatedOrder);
 
             resp.sendRedirect(req.getContextPath() + "/admin_Orders");
         } catch (Exception e) {
             e.printStackTrace();
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Cập nhật thất bại.");
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Cập nhật hóa đơn thất bại.");
         }
     }
 }

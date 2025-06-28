@@ -4,28 +4,29 @@ import com.banthatlung.Dao.OrderDao;
 import com.banthatlung.Dao.model.Order;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/order")
+@WebServlet("/orders")
 public class OrderController extends HttpServlet {
     private final OrderDao orderDao = new OrderDao();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userId = request.getParameter("user");
         try {
-            List<Order> orders = orderDao.getOrdersByUser(userId);
+            List<Order> orders = orderDao.getAllOrders();
+
             request.setAttribute("orders", orders);
-            request.getRequestDispatcher("/orders.jsp").forward(request, response);
-        } catch (Exception e) {
+
+            request.getRequestDispatcher("/View/orders.jsp").forward(request, response);
+
+        } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("error.jsp");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Không thể lấy danh sách đơn hàng.");
         }
     }
 }
