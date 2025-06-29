@@ -46,6 +46,9 @@
     <li>
       <a href="<%=request.getContextPath()%>/admin_Materials"><i class="fa fa-edit "></i>Materials</a>
     </li>
+    <li>
+      <a href="<%=request.getContextPath()%>/admin_Keys"><i class="fa fa-edit "></i>Keys</a>
+    </li>
 
   </ul>
 </div>

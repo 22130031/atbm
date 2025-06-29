@@ -162,7 +162,7 @@
                                 <span class="font-weight-bold">Thành tiền</span>
                                 <span class="float-right font-weight-bold text-danger"><%= String.format("%,d", total) %> VNĐ</span>
                             </div>
-                            <button class="btn btn-primary btn-lg btn-block mt-3" onclick="location.href='${pageContext.request.contextPath}/checkout'">
+                            <button class="btn btn-primary btn-lg btn-block mt-3" onclick="location.href='${pageContext.request.contextPath}/checkOut'">
                                 Thanh toán
                             </button>
                         </div>

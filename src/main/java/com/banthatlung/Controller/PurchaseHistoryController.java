@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-@WebServlet(name = "PurchaseHistoryController", value = "/history")
+@WebServlet(name = "PurchaseHistoryController", value = "/purchase-history")
 public class PurchaseHistoryController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
