@@ -2,11 +2,13 @@ package com.banthatlung.Controller;
 
 import com.banthatlung.Dao.OrderDao;
 import com.banthatlung.Dao.model.Order;
+import com.banthatlung.Dao.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,9 +35,10 @@ public class OrderController extends HttpServlet {
         resp.setContentType("text/html; charset=UTF-8");
         String filter = req.getParameter("filter");
         String search = req.getParameter("search");
-
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("auth");
         try {
-            List<Order> orderList = orderDao.getAllOrders();
+            List<Order> orderList = orderDao.getOrdersByUser(user.getId());
             if (filter != null && !filter.isEmpty() && !"all".equals(filter)) {
                 orderList = orderList.stream()
                         .filter(order -> "signed".equals(filter) ? order.isSigned() : !order.isSigned())
