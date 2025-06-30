@@ -1,41 +1,45 @@
 package com.banthatlung.Controller;
 
-
-
 import com.banthatlung.Dao.KeyDAO;
-import com.banthatlung.Dao.model.UserKey;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
-@WebServlet(name = "DownloadUserKeyController", value = "/download-user-key")
-public class DownloadUserKeyController extends HttpServlet {
+@WebServlet(name = "DownloadKeyController", value = "/download-user-key")
+public class DownloadKeyController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
         String userId = req.getParameter("userId");
+        if (userId == null && session.getAttribute("auth") != null) {
+            userId = ((com.banthatlung.Dao.model.User) session.getAttribute("auth")).getId();
+        }
 
-        if (userId == null) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu userId");
+        if (userId == null || !KeyDAO.hasKey(userId)) {
+            resp.setContentType("text/plain");
+            resp.getWriter().write("Không tìm thấy khóa cho người dùng.");
             return;
         }
 
-        UserKey key = KeyDAO.getKeyByUserId(userId);
-        if (key == null) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy khóa của bạn");
+        String privateKey = KeyDAO.getPrivateKeyByUserId(userId);
+        if (privateKey == null) {
+            resp.setContentType("text/plain");
+            resp.getWriter().write("Khóa riêng không tồn tại.");
             return;
         }
 
-        // Thiết lập header để tải file
-        resp.setContentType("application/octet-stream");
-        resp.setHeader("Content-Disposition", "attachment; filename=private_key_" + userId + ".txt");
+        // Thiết lập tải file
+        resp.setContentType("application/x-pem-file");
+        resp.setHeader("Content-Disposition", "attachment; filename=\"privatekey.pem\"");
 
-        try (OutputStream out = resp.getOutputStream()) {
-            out.write(key.getPrivateKey().getBytes());
-            out.flush();
-        }
+        // Ghi nội dung khóa vào output stream
+        OutputStream out = resp.getOutputStream();
+        out.write(privateKey.getBytes(StandardCharsets.UTF_8));
+        out.flush();
+        out.close();
     }
 }
-

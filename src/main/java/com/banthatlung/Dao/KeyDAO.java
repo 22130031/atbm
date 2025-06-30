@@ -113,5 +113,20 @@ public class KeyDAO {
         }
         return false;
     }
+
+    public static String getPrivateKeyByUserId(String userId) {
+        String sql = "SELECT private_key FROM user_keys WHERE user_id = ?";
+        try (PreparedStatement stmt = DBConnect2.getPreparedStatement(sql)) {
+            stmt.setString(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("private_key");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
 
