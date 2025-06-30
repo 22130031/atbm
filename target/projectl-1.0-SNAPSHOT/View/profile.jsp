@@ -302,6 +302,25 @@
                     <label>Giới tính: ${sessionScope.auth.gender}</label>
                 </div>
                 <button type="submit" class="save-button">Lưu</button>
+                <form action="${pageContext.request.contextPath}/generate-user-key" method="post">
+                    <button type="submit" class="save-button">🔐 Tạo khóa bảo mật</button>
+                </form>
+                <c:if test="${not empty message}">
+                    <p style="color: red">${message}</p>
+                </c:if>
+                <c:if test="${sessionScope.auth != null}">
+                    <form action="${pageContext.request.contextPath}/report-lost-key" method="post">
+                        <button type="submit" class="save-button" style="background-color:#f39c12;">Báo mất khóa</button>
+                    </form>
+                </c:if>
+                <c:if test="${sessionScope.auth != null}">
+                    <form action="${pageContext.request.contextPath}/download-user-key" method="get">
+                        <input type="hidden" name="userId" value="${sessionScope.auth.id}" />
+                        <button type="submit" class="save-button">📥 Tải Private Key</button>
+                    </form>
+                </c:if>
+
+
             </form>
         </div>
     </div>

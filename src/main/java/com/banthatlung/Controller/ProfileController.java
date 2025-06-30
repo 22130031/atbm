@@ -1,5 +1,6 @@
 package com.banthatlung.Controller;
 
+import com.banthatlung.Dao.KeyDAO;
 import com.banthatlung.Dao.model.User;
 import com.banthatlung.services.ProfileService;
 import jakarta.servlet.ServletException;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 
-@WebServlet(name = "ProfileController",value = "/profile")
+@WebServlet(name = "ProfileController", value = "/profile")
 public class ProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -46,10 +47,18 @@ public class ProfileController extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         if (updated) {
+            // ✅ Cập nhật session
             session.setAttribute("auth", user);
 
-            System.out.println(name+email+phone+dob+user.getId());
+            // ✅ Tạo khóa nếu chưa có
+            boolean hasKey = KeyDAO.hasKey(user.getId());
+            if (!hasKey) {
+                boolean created = KeyDAO.generateKeyForUser(user.getId(), user.getEmail());
+                System.out.println("Tạo khóa cho user " + user.getId() + ": " + created);
+            }
+
             resp.sendRedirect(req.getContextPath() + "/View/profile.jsp");
         } else {
             req.setAttribute("error", "Cập nhật không thành công!");
